@@ -10,5 +10,7 @@
     <string name="action_exit">Exit</string>
     <string name="title_activity_data_parse">DataParse</string>
     <string name="title_activity_data_model">DataModel</string>
+    <string name="label_id">Id</string>
+
 
 </resources>

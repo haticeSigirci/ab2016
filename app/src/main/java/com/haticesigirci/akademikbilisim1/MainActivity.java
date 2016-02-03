@@ -19,14 +19,24 @@ public class MainActivity extends AppCompatActivity {
     private EditText password;
     private Button buttonLogin;
     private Button buttonDataParse;         //ViewById annotation
+    private Button buttonDatabase;
+    private Button buttonRemoteJSON;
 
     String mUsername;
     String mPassword;
+
+    private ABSharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sp = new ABSharedPreferences(MainActivity.this);
+
+        checkLogin();
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -48,10 +58,28 @@ public class MainActivity extends AppCompatActivity {
                 mPassword = password.getText().toString();
 
                 if (mUsername.equals("hatice") && mPassword.equals("1234")) {
+
+                    sp.editor.putBoolean("isLoggedIn", true);
+                    sp.editor.commit();
+
                     openDashboard();
                 }
+
+                finish(); // user should show login screen when the application started for the firs time otherwise login screen should not show
             }
         });
+
+        buttonDatabase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent databaseIntent = new Intent(
+                        MainActivity.this,
+                        DatabaseList.class
+                );
+                startActivity(databaseIntent);
+            }
+        });
+
 
         buttonDataParse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +93,32 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        buttonRemoteJSON.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent remoteJSON=new Intent(
+                        MainActivity.this,RemoteJSON.class
+                );
+
+                startActivity(remoteJSON);
+
+            }
+        });
+
+    }
+
+    private void checkLogin() {
+
+        Boolean isLoggedIn = sp.preferences.getBoolean("isLoggedIn", false);
+
+        if(isLoggedIn) {
+
+            openDashboard();
+            finish();
+
+        }
 
     }
 
@@ -88,6 +142,9 @@ public class MainActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.password);
         buttonLogin = (Button) findViewById(R.id.button_login);
         buttonDataParse=(Button) findViewById(R.id.button_data_parse);
+        buttonDatabase=(Button) findViewById(R.id.button_database);
+        buttonRemoteJSON=(Button) findViewById(R.id.button_remote_json);
+
 
     }
 

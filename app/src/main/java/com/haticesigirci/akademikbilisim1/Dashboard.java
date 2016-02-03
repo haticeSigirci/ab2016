@@ -2,6 +2,7 @@ package com.haticesigirci.akademikbilisim1;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +27,10 @@ public class Dashboard extends AppCompatActivity {
     private ListView cities;
 
     private ArrayAdapter<String> adapter;
+    private Button logoutButton;
+
+    private ABSharedPreferences sp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +53,12 @@ public class Dashboard extends AppCompatActivity {
         username = (TextView) findViewById(R.id.username);
         mUsername = getIntent().getStringExtra("username");
         username.setText("Hi " + mUsername);
+        logoutButton = (Button) findViewById(R.id.logout_button);
 
         cities = (ListView) findViewById(R.id.cities);
         fillInCities();
+
+        sp = new ABSharedPreferences(Dashboard.this);
 
         adapter = new ArrayAdapter<String>(Dashboard.this, android.R.layout.simple_list_item_1, cityList);
         cities.setAdapter(adapter);
@@ -77,6 +86,23 @@ public class Dashboard extends AppCompatActivity {
 
         });
 
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
+
+    }
+
+    private void logout() {
+
+        sp.editor.remove("isLoggedIn");
+        sp.editor.commit();
+
+        Intent mainIntent = new Intent(Dashboard.this, MainActivity.class);
+        startActivity(mainIntent);
+        finish();
 
     }
 

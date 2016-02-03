@@ -77,6 +77,23 @@
         android:layout_alignParentRight="true"
         />
 
+    <Button
+        android:id="@+id/button_remote_json"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get data from remote"
+        android:layout_below="@id/button_login"
+        />
+
+    <Button
+        android:id="@+id/button_database"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_login"
+        android:layout_below="@id/label_password"
+    android:layout_toRightOf="@id/button_data_parse"
+        />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
